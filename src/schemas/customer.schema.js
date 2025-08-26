@@ -1,8 +1,11 @@
-import joi from "joi";
+import baseJoi from "joi";
+import joiDate from "@joi/date";
+
+const joi = baseJoi.extend(joiDate);
 
 export const customerSchema = joi.object({
-    name: joi.string().min(1).required(),
-    phone: joi.string().pattern(/^\d{10,11}$/).required(),
-    cpf: joi.string().pattern(/^\d{11}$/).required(),
-    birthday:joi.date().iso().required()
+    name: joi.string().trim().required(),
+    phone: joi.string().trim().min(10).max(11).pattern(/^\d+$/).required(),
+    cpf: joi.string().trim().length(11).pattern(/^\d+$/).required(),
+    birthday: joi.date().format(['YYYY-MM-DD']).required()
 });
